@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, computed } from 'vue'
 import Banner from '../components/View/Banner.vue'
 import Product from '../components/View/Product.vue'
 import Images from '../components/View/Images.vue'
@@ -36,13 +36,13 @@ const dragMaterial = ref(null)
 const dragIndex = ref()
 const isRight = ref(false)
 const props = ref({})
-let isPush = false
+let isPushed = false
 function dragStart(e) {
   dragMaterial.value = e.target.dataset.material
 }
 function dragEnd() {
   delete views.value[dragIndex.value].status
-  isPush = false
+  isPushed = false
   dragMaterial.value = null
 }
 function drop(e) {
@@ -64,19 +64,19 @@ function dragOver(e) {
     options: {}         // 选项操作
   }
   if (name === 'view-content') {
-    if (!isPush) {
+    if (!isPushed) {
       dragIndex.value = views.value.length
-      isPush = true
+      isPushed = true
       views.value.push(defaultData)
     }
   } else if (name === 'item') {
     const target = e.target
     let [y, h, curIndex] = [e.offsetY, target.offsetHeight, target.dataset.index]
-    const direction = y < (h / 2)
-    if (!isPush) {
+    const isTop = y < (h / 2)
+    if (!isPushed) {
       // Push to Top or Bottom
-      if (direction) {
-        if (curIndex == 0) {
+      if (isTop) {
+        if (curIndex === 0) {
           views.value.unshift(defaultData)
         } else {
           views.value.splice(curIndex, 0, defaultData)
@@ -88,12 +88,12 @@ function dragOver(e) {
     } else {
       // Moving
       let result
-      if (direction) {
-        const i = curIndex == 0 ? 0 : curIndex - 1
-        result = views.value[i]['status'] == 2
+      if (isTop) {
+        const i = curIndex === 0 ? 0 : curIndex - 1
+        result = views.value[i]['status'] === 2
       } else {
         const i = +curIndex + 1
-        result = views.value.length > i && views.value[i]['status'] == 2
+        result = views.value.length > i && views.value[i]['status'] === 2
       }
 
       if (result) return
@@ -102,7 +102,7 @@ function dragOver(e) {
       views.value.splice(curIndex, 0, temp[0])
     }
     dragIndex.value = curIndex
-    isPush = true
+    isPushed = true
   }
 }
 
