@@ -6,7 +6,7 @@ defineProps(['data'])
   <div class="banner-box">
     <el-carousel v-if="data.data && data.data.length > 0" height="176px">
       <el-carousel-item v-for="(item, index) in data.data" :key="index">
-        <img :src="item.url">
+        <img :src="item.url" />
       </el-carousel-item>
     </el-carousel>
     <div class="image-null" v-else>
@@ -17,7 +17,8 @@ defineProps(['data'])
   </div>
 </template>
 
-<style lang="scss" scoped>.banner-box {
+<style lang="scss" scoped>
+.banner-box {
   font-size: 0;
 
   img {

@@ -15,15 +15,13 @@ const line = computed(() => {
     <template v-if="data.data && data.data.length > 0">
       <div class="product-item" v-for="(item, index) in data.data" :key="index">
         <div class="image">
-          <img :src="item.productImg">
+          <img :src="item.productImg" />
         </div>
         <div class="info">
           <p class="name">{{ item.productName }}</p>
           <p class="num">
-            {{ options.volumeStr ? item.volumeStr + ' 已购买' : '' }} {{ line }} {{
-              options.goodRatio ? item.goodRatio +
-                '99%' : ''
-            }}
+            {{ options.volumeStr ? item.volumeStr + ' 已购买' : '' }}
+            {{ line }} {{ options.goodRatio ? item.goodRatio + '99%' : '' }}
           </p>
           <p class="price">
             <span>￥{{ item.productPrice }}</span>
@@ -37,23 +35,24 @@ const line = computed(() => {
         <div class="image">
           <img
             src="https://img.quanminyanxuan.com/other/21188f7a1e9340759c113aa569f96699.jpg?x-oss-process=image/resize,h_600,m_lfit"
-            alt="">
+            alt=""
+          />
         </div>
         <div class="info">
           <p class="name">这是商品名称</p>
-          <p class="num">
-            12124 已购买 | 99%
-          </p>
+          <p class="num">12124 已购买 | 99%</p>
           <p class="price">
             <span>￥9.99</span>
             <span>￥9.99</span>
           </p>
         </div>
       </div>
-    </template>   </div>
+    </template>
+  </div>
 </template>
 
-<style lang="scss" scoped>.product {
+<style lang="scss" scoped>
+.product {
   display: flex;
   flex-wrap: wrap;
   padding: 4px 8px;

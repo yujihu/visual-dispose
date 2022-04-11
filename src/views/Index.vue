@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed } from 'vue'
+import Draggable from 'vuedraggable'
 import Banner from '../components/View/Banner.vue'
 import Product from '../components/View/Product.vue'
 import Images from '../components/View/Images.vue'
-import Draggable from 'vuedraggable'
 
 const materials = {
   banner: {
@@ -20,13 +20,15 @@ const materials = {
     name: '图片',
     icon: 'picture',
     com: Images
-  },
+  }
 }
 
-const views = ref([{
-  type: 'info',
-  title: '页面标题'
-}])
+const views = ref([
+  {
+    type: 'info',
+    title: '页面标题'
+  }
+])
 
 const info = computed(() => {
   return views.value[0]
@@ -58,10 +60,10 @@ function dragOver(e) {
   const className = e.target.className
   const name = className !== 'view-content' ? 'item' : 'view-content'
   const defaultData = {
-    type: dragMaterial.value,    // 组件类型
-    status: 2,          // 默认状态
-    data: [],           // 数据
-    options: {}         // 选项操作
+    type: dragMaterial.value, // 组件类型
+    status: 2, // 默认状态
+    data: [], // 数据
+    options: {} // 选项操作
   }
   if (name === 'view-content') {
     if (!isPushed) {
@@ -71,8 +73,12 @@ function dragOver(e) {
     }
   } else if (name === 'item') {
     const target = e.target
-    let [y, h, curIndex] = [e.offsetY, target.offsetHeight, target.dataset.index]
-    const isTop = y < (h / 2)
+    let [y, h, curIndex] = [
+      e.offsetY,
+      target.offsetHeight,
+      target.dataset.index
+    ]
+    const isTop = y < h / 2
     if (!isPushed) {
       // Push to Top or Bottom
       if (isTop) {
@@ -106,7 +112,7 @@ function dragOver(e) {
   }
 }
 
-function selectType() { }
+function selectType() {}
 function deleteItem(index) {
   views.value.splice(index, 1)
   isRight.value = false
@@ -117,7 +123,12 @@ function deleteItem(index) {
   <div class="container">
     <div class="left">
       <ul @dragstart="dragStart" @dragend="dragEnd">
-        <li v-for="(val, key, index) in materials" draggable="true" :data-material="key" :key="index + 1">
+        <li
+          v-for="(val, key, index) in materials"
+          draggable="true"
+          :data-material="key"
+          :key="index + 1"
+        >
           <el-icon size="40px">
             <component :is="val.icon" />
           </el-icon>
@@ -129,21 +140,33 @@ function deleteItem(index) {
     <div class="middle">
       <!-- header 不可拖拽 -->
       <div class="top-nav" @click="selectType(0)">
-        <img src="./../assets/images/top-nav.png">
+        <img src="./../assets/images/top-nav.png" />
         <span class="title">{{ info.title }}</span>
       </div>
-      <div class="view-content" @drop.prevent.stop="drop" @dragover.prevent.stop="dragOver"
-        :style="{ backgroundColor: info.backgroundColor }">
+      <div
+        class="view-content"
+        @drop.prevent.stop="drop"
+        @dragover.prevent.stop="dragOver"
+        :style="{ backgroundColor: info.backgroundColor }"
+      >
         <Draggable v-model="views">
-          <template #item="{element, index}">
-            <div v-if="index > 0" :data-index="index" :key="index" class="item" @click="selectType(index)">
+          <template #item="{ element, index }">
+            <div
+              v-if="index > 0"
+              :data-index="index"
+              :key="index"
+              class="item"
+              @click="selectType(index)"
+            >
               <!-- waiting -->
               <template v-if="element.status && element.status === 2">
-                <div class="wait"> {{ element.type }} </div>
+                <div class="wait">{{ element.type }}</div>
               </template>
               <template v-else>
-                <component :is="materials[element.type]['com']" :data="element">
-                </component>
+                <component
+                  :is="materials[element.type]['com']"
+                  :data="element"
+                ></component>
               </template>
               <el-icon>
                 <circle-close-filled @click.prevent.stop="deleteItem(index)" />
@@ -156,7 +179,8 @@ function deleteItem(index) {
     <div class="right"></div>
   </div>
 </template>
-<style lang="scss" scoped>.container {
+<style lang="scss" scoped>
+.container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -192,7 +216,7 @@ function deleteItem(index) {
         float: left;
         margin: 0 10px;
         border-radius: 6px;
-        transition: all .3s;
+        transition: all 0.3s;
         cursor: pointer;
 
         &:hover {
@@ -225,7 +249,7 @@ function deleteItem(index) {
       top: 0;
       background: #fff;
       z-index: 999;
-      transition: all .3s;
+      transition: all 0.3s;
 
       & * {
         pointer-events: none;
@@ -277,7 +301,7 @@ function deleteItem(index) {
       }
 
       .item {
-        transition: all .3s;
+        transition: all 0.3s;
         background: #fff;
         position: relative;
 
@@ -286,7 +310,7 @@ function deleteItem(index) {
           border-radius: 10px;
           box-shadow: 0 0 10px #afafaf;
 
-          >i {
+          > i {
             display: block;
           }
         }
@@ -304,7 +328,7 @@ function deleteItem(index) {
           color: #666;
         }
 
-        >i {
+        > i {
           position: absolute;
           right: -10px;
           top: -6px;

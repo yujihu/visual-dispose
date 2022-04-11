@@ -6,7 +6,7 @@ defineProps(['data', 'className'])
   <div class="image-box" :class="className">
     <template v-if="data.data && data.data.length > 0">
       <a v-for="(item, index) in data.data" :key="index" :href="item.link">
-        <img :src="item.url">
+        <img :src="item.url" />
       </a>
     </template>
     <template v-else>
@@ -15,10 +15,12 @@ defineProps(['data', 'className'])
           <Picture />
         </el-icon>
       </div>
-    </template>   </div>
+    </template>
+  </div>
 </template>
 
-<style lang="scss" scoped>.image-box {
+<style lang="scss" scoped>
+.image-box {
   font-size: 0;
 
   img {
