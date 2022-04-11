@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
+import throttle from 'lodash.throttle'
 import Draggable from 'vuedraggable'
 import Banner from '../components/View/Banner.vue'
 import Product from '../components/View/Product.vue'
@@ -40,20 +41,25 @@ const isRight = ref(false)
 const props = ref({})
 let isPushed = false
 function dragStart(e) {
+  console.log('drag start')
   dragMaterial.value = e.target.dataset.material
 }
 function dragEnd() {
+  console.log('drag end')
   delete views.value[dragIndex.value].status
   isPushed = false
   dragMaterial.value = null
 }
 function drop(e) {
+  console.log('drop')
   if (!dragMaterial.value) {
     return
   }
   dragEnd(e)
 }
-function dragOver(e) {
+
+const dragOver = throttle(function (e) {
+  console.log('drag over')
   if (!dragMaterial.value) {
     return
   }
@@ -110,7 +116,7 @@ function dragOver(e) {
     dragIndex.value = curIndex
     isPushed = true
   }
-}
+}, 200)
 
 function selectType() {}
 function deleteItem(index) {

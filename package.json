@@ -10,6 +10,7 @@
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
     "element-plus": "^2.1.8",
+    "lodash.throttle": "^4.1.1",
     "vue": "^3.2.25",
     "vuedraggable": "^4.1.0"
   },
