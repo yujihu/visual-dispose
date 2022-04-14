@@ -1,12 +1,26 @@
-<script setup>
+<script lang="ts" setup>
 import { computed } from 'vue'
 
-const { data, className } = defineProps(['data', 'className'])
-const options = computed(() => {
+interface IOptions {
+  volumeStr?: string,
+  goodRatio?: string,
+  originalPrice?: number
+}
+
+interface IData {
+  options: IOptions,
+  data: Array<any>
+}
+
+const { data, className } = defineProps<{
+  data: IData,
+  className: string
+}>()
+const options = computed<IOptions>(() => {
   return data.options
 })
 const line = computed(() => {
-  options.volumeStr && options.goodRatio ? '| ' : ''
+  options.value.volumeStr && options.value.goodRatio ? '| ' : ''
 })
 </script>
 

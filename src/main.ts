@@ -4,6 +4,6 @@ import * as ElIcons from '@element-plus/icons-vue'
 
 const app = createApp(App)
 for (const name in ElIcons) {
-  app.component(name, ElIcons[name])
+  app.component(name, (ElIcons as any)[name])
 }
 app.mount('#app')

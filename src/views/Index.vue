@@ -1,6 +1,6 @@
-<script setup>
+<script lang="ts" setup>
 import { ref, computed } from 'vue'
-import throttle from 'lodash.throttle'
+import throttle from 'lodash-es/throttle'
 import Draggable from 'vuedraggable'
 import Banner from '../components/View/Banner.vue'
 import Product from '../components/View/Product.vue'
@@ -24,7 +24,16 @@ const materials = {
   }
 }
 
-const views = ref([
+interface IView {
+  type: string,
+  title?: string,
+  status?: number,
+  data?: Array<any>,
+  options?: object,
+  backgroundColor?: string
+}
+
+const views = ref<IView[]>([
   {
     type: 'info',
     title: '页面标题'
@@ -35,27 +44,27 @@ const info = computed(() => {
   return views.value[0]
 })
 
-const dragMaterial = ref(null)
+const dragMaterial = ref<string>()
 const dragIndex = ref()
 const isRight = ref(false)
 const props = ref({})
 let isPushed = false
-function dragStart(e) {
+function dragStart(e: DragEvent) {
   console.log('drag start')
-  dragMaterial.value = e.target.dataset.material
+  dragMaterial.value = (e.target as HTMLElement).dataset.material
 }
 function dragEnd() {
   console.log('drag end')
   delete views.value[dragIndex.value].status
   isPushed = false
-  dragMaterial.value = null
+  dragMaterial.value = undefined
 }
-function drop(e) {
+function drop() {
   console.log('drop')
   if (!dragMaterial.value) {
     return
   }
-  dragEnd(e)
+  dragEnd()
 }
 
 const dragOver = throttle(function (e) {
@@ -65,7 +74,7 @@ const dragOver = throttle(function (e) {
   }
   const className = e.target.className
   const name = className !== 'view-content' ? 'item' : 'view-content'
-  const defaultData = {
+  const defaultData: IView = {
     type: dragMaterial.value, // 组件类型
     status: 2, // 默认状态
     data: [], // 数据
@@ -118,8 +127,10 @@ const dragOver = throttle(function (e) {
   }
 }, 200)
 
-function selectType() {}
-function deleteItem(index) {
+function selectType(index: number) {
+  console.log(index)
+}
+function deleteItem(index: number){
   views.value.splice(index, 1)
   isRight.value = false
   props.value = {}
